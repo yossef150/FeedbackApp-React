@@ -1,21 +1,19 @@
 import React from 'react'
 import FeedbackItem from './FeedbackItem'
-import PropTypes from 'prop-types'
-function FeedbackList({feedback, handleDelete}) {
-  if(!feedback || feedback.length === 0)
+import { useContext } from 'react';
+import FeedbackContext from '../Context/FeedbackContext';
+import Spinner from '../shared/Spinner';
+function FeedbackList() {
+  const {feedback, isLoading} = useContext(FeedbackContext);
+  if(!isLoading && (!feedback || feedback.length === 0))
     return <p>No feedback yet!</p>
-  return (
-    <div className="feedback-list">
-
+  return (isLoading)? <Spinner/>: (<div className="feedback-list">
     {feedback.map( item => (
-      <FeedbackItem key={item.id} item = {item} handleDelete={handleDelete}/>
+      <FeedbackItem key={item.id} item = {item}/>
     ))} 
     </div>
   )
-}
 
-FeedbackList.propTypes = {
-  feedback: PropTypes.array.isRequired,
 }
 
 export default FeedbackList
